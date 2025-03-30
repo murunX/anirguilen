@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import gif1 from "../src/assets/gif1.gif";
 import gif4 from "../src/assets/gif4.gif";
+import kamisama from "../src/assets/kamisama.m4a"; // Import the audio file
 import "../src/index.css";
 
 function Home() {
@@ -16,6 +17,20 @@ function Home() {
       left: `${x}px`,
       top: `${y}px`,
     });
+  };
+
+  const playAudio = () => {
+    const audio = new Audio(kamisama);
+    audio.volume = 0.3;
+    audio.muted = true; // Start muted
+    audio.play().catch((error) => {
+      console.error("Audio play failed:", error);
+    });
+
+    // Unmute audio after a short delay
+    setTimeout(() => {
+      audio.muted = false;
+    }, 100); // Unmute after 100ms delay
   };
 
   // Heart animation effect
@@ -59,7 +74,10 @@ function Home() {
       <div className="flex flex-row justify-center items-center">
         <button
           className="bg-pink-600 text-lg md:text-3xl m-5 md:m-10 px-10 md:px-20 py-2 md:py-4 rounded-full text-white font-semibold border-4 border-violet-800 cursor-pointer"
-          onClick={() => navigate("/success")}
+          onClick={() => {
+            playAudio(); // Play audio on button click
+            navigate("/success"); // Navigate to success page
+          }}
         >
           YES
         </button>
