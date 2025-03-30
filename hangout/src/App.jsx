@@ -11,25 +11,6 @@ function App() {
   const isFormCompleted = localStorage.getItem("isFormCompleted"); // Check if form is completed
 
   // Play the song when the app is loaded
-  useEffect(() => {
-    const audio = new Audio(kamisama);
-    audio.volume = 0.3;
-    audio.muted = true; // Start muted
-    audio.play().catch((error) => {
-      console.error("Audio play failed:", error);
-    });
-
-    // Unmute after a short delay
-    setTimeout(() => {
-      audio.muted = false; // Unmute after 100ms
-    }, 100);
-
-    return () => {
-      audio.pause(); // Pause the audio on cleanup
-      audio.currentTime = 0; // Reset playback time
-    };
-  }, []);
-
   return (
     <div>
       <Routes>

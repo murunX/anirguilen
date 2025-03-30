@@ -10,6 +10,7 @@ function DatePickerPage() {
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [dateToSave, setDateToSave] = useState(null); // Store the date the user chose for saving confirmation
   const [isDateConfirmed, setIsDateConfirmed] = useState(false); // Flag to track if date is confirmed
+  const [isBusyDay, setIsBusyDay] = useState(false); // Flag to track if the selected day is busy
   const navigate = useNavigate();
 
   // Example of busy, not busy, and night dates
@@ -66,12 +67,22 @@ function DatePickerPage() {
     const status = dateStatuses[dateString];
 
     setDateToSave(date); // Store the selected date for later saving
+
+    if (status === "busy") {
+      // If the selected day is "busy", show the sorry message in the modal
+      setIsBusyDay(true);
+    } else {
+      // If the selected day is not "busy", show the usual confirmation modal
+      setIsBusyDay(false);
+    }
+
     setShowModal(true); // Show the modal
   };
 
   // Function to handle confirmation
   const handleConfirmation = (confirmed) => {
-    if (confirmed && dateToSave) {
+    if (!isBusyDay && confirmed && dateToSave) {
+      // Save the selected date only if it's not a busy day
       const year = dateToSave.getFullYear();
       const month = dateToSave.getMonth() + 1;
       const day = dateToSave.getDate();
@@ -80,7 +91,7 @@ function DatePickerPage() {
       setIsDateConfirmed(true); // Flag that the date is confirmed
     }
 
-    setShowModal(false); // Close the modal
+    setShowModal(false); // Close the modal regardless of busy or free day
   };
 
   // Function to handle the date picker change
@@ -89,6 +100,7 @@ function DatePickerPage() {
     setShowModal(true); // Show confirmation modal after picking a date
     setDateToSave(date); // Store the date for saving
   };
+
   useEffect(() => {
     const loveInterval = setInterval(() => {
       const r_num = Math.floor(Math.random() * 40) + 1;
@@ -114,6 +126,7 @@ function DatePickerPage() {
 
     return () => clearInterval(loveInterval); // Cleanup when the component unmounts
   }, []);
+
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-pink-300">
       <h1 className="text-3xl font-bold text-pink-600">Pick a Date</h1>
@@ -122,7 +135,7 @@ function DatePickerPage() {
       <div className="text-sm text-gray-700 mb-6">
         <p>
           <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span>
-          <span>Sorry, it's a busy day working</span>
+          <span>Sorry, it's a busy day (work)</span>
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-green-500 mr-2"></span>
@@ -130,7 +143,7 @@ function DatePickerPage() {
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span>
-          <span>I can do in the night :)</span>
+          <span>ofc i can hangout friday nightsss :)</span>
         </p>
       </div>
 
@@ -158,13 +171,13 @@ function DatePickerPage() {
       {showModal && (
         <div className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm mt-10">
-            {" "}
-            {/* Adjust the mt-10 to increase top margin */}
             <h2 className="text-xl font-bold mb-4">
-              Dashnym baljinyamtai udur
+              {isBusyDay ? "uuchlrai ho" : "Dashnym baljinyamtai udur"}
             </h2>
             <p className="mb-4">
-              ene uduruu uu? : {dateToSave?.toLocaleDateString()}
+              {isBusyDay
+                ? `ene ulaan udruud songogdohgue: ${dateToSave?.toLocaleDateString()}`
+                : `ene uduruu uu? : ${dateToSave?.toLocaleDateString()}`}
             </p>
             <div className="flex justify-around">
               <button
@@ -177,7 +190,7 @@ function DatePickerPage() {
                 className="bg-blue-500 text-white px-4 py-2 rounded-full"
                 onClick={() => handleConfirmation(true)} // Confirm button
               >
-                Tegya Ho
+                Zaaazaaa
               </button>
             </div>
           </div>

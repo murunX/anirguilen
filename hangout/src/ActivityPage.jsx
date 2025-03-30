@@ -37,7 +37,7 @@ function ActivityPage() {
     "Dinner",
     "Night Drive",
     "Chill and Walk",
-    "Drink Some Alcohol",
+    "Drink Some .....",
   ];
 
   // Function to handle saving the data
