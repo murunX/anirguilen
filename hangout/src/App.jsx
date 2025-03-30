@@ -9,9 +9,8 @@ import kamisama from "./assets/kamisama.m4a"; // Import the audio file
 
 function App() {
   const isFormCompleted = localStorage.getItem("isFormCompleted"); // Check if form is completed
-  const [isAudioPlayed, setIsAudioPlayed] = useState(false);
 
-  // Play the song when the app is loaded, after user interaction
+  // Play the song when the app is loaded
   useEffect(() => {
     const audio = new Audio(kamisama);
     audio.volume = 0.3;
@@ -22,27 +21,17 @@ function App() {
 
     // Unmute after a short delay
     setTimeout(() => {
-      audio.muted = false;
-    }, 100); // Unmute after a short time
+      audio.muted = false; // Unmute after 100ms
+    }, 100);
 
     return () => {
-      audio.pause();
-      audio.currentTime = 0;
+      audio.pause(); // Pause the audio on cleanup
+      audio.currentTime = 0; // Reset playback time
     };
   }, []);
 
   return (
     <div>
-      {/* Button to trigger audio */}
-      {!isAudioPlayed && (
-        <button
-          onClick={playAudio}
-          style={{ padding: "10px 20px", marginTop: "20px" }}
-        >
-          Click to Play Audio
-        </button>
-      )}
-
       <Routes>
         {/* Home page route */}
         <Route
