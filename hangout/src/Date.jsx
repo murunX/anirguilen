@@ -28,11 +28,14 @@ function DatePickerPage() {
   const handleSaveDate = async (year, month, day) => {
     try {
       // Send the year, month, and day separately to the backend API
-      const response = await axios.post("http://localhost:4000/api/save-date", {
-        year,
-        month,
-        day,
-      });
+      const response = await axios.post(
+        "https://anirguilen-server.vercel.app/api/save-date",
+        {
+          year,
+          month,
+          day,
+        }
+      );
 
       if (response.status === 200) {
         // On success, navigate to another page (optional)

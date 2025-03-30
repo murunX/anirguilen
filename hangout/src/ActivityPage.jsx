@@ -50,7 +50,7 @@ function ActivityPage() {
     try {
       // Send the selected activities and suggestion to the backend API
       const response = await axios.post(
-        "http://localhost:4000/api/save-activity",
+        "https://anirguilen-server.vercel.app/api/save-activity",
         {
           activities: selectedActivities,
           suggestion,
