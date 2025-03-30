@@ -12,9 +12,10 @@ function App() {
   const [isAudioPlayed, setIsAudioPlayed] = useState(false);
 
   // Play the song when the app is loaded, after user interaction
-  const playAudio = () => {
+  useEffect(() => {
     const audio = new Audio(kamisama);
     audio.volume = 0.3;
+    audio.muted = true; // Start muted
     audio.play().catch((error) => {
       console.error("Audio play failed:", error);
     });
@@ -22,10 +23,13 @@ function App() {
     // Unmute after a short delay
     setTimeout(() => {
       audio.muted = false;
-    }, 100);
+    }, 100); // Unmute after a short time
 
-    setIsAudioPlayed(true); // Track that audio has been played
-  };
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
 
   return (
     <div>
